@@ -49,6 +49,10 @@
             this.buttonInsertar = new System.Windows.Forms.Button();
             this.buttonActualizar = new System.Windows.Forms.Button();
             this.buttonEliminar = new System.Windows.Forms.Button();
+            this.dateTimePickerfecha = new System.Windows.Forms.DateTimePicker();
+            this.Fecha = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNivle_poder)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownRecompensa)).BeginInit();
@@ -57,7 +61,7 @@
             // dataGridViewOP
             // 
             this.dataGridViewOP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewOP.Location = new System.Drawing.Point(17, 355);
+            this.dataGridViewOP.Location = new System.Drawing.Point(12, 386);
             this.dataGridViewOP.Name = "dataGridViewOP";
             this.dataGridViewOP.RowHeadersWidth = 51;
             this.dataGridViewOP.RowTemplate.Height = 24;
@@ -89,7 +93,6 @@
             this.textBoxNombre.Name = "textBoxNombre";
             this.textBoxNombre.Size = new System.Drawing.Size(321, 22);
             this.textBoxNombre.TabIndex = 3;
-            
             // 
             // textBoxCargo
             // 
@@ -101,6 +104,11 @@
             // numericUpDownNivle_poder
             // 
             this.numericUpDownNivle_poder.Location = new System.Drawing.Point(206, 188);
+            this.numericUpDownNivle_poder.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
             this.numericUpDownNivle_poder.Name = "numericUpDownNivle_poder";
             this.numericUpDownNivle_poder.Size = new System.Drawing.Size(153, 22);
             this.numericUpDownNivle_poder.TabIndex = 6;
@@ -116,6 +124,11 @@
             // numericUpDownRecompensa
             // 
             this.numericUpDownRecompensa.Location = new System.Drawing.Point(206, 262);
+            this.numericUpDownRecompensa.Maximum = new decimal(new int[] {
+            1000000000,
+            0,
+            0,
+            0});
             this.numericUpDownRecompensa.Name = "numericUpDownRecompensa";
             this.numericUpDownRecompensa.Size = new System.Drawing.Size(153, 22);
             this.numericUpDownRecompensa.TabIndex = 8;
@@ -258,6 +271,48 @@
             this.buttonEliminar.UseVisualStyleBackColor = false;
             this.buttonEliminar.Click += new System.EventHandler(this.buttonEliminar_Click);
             // 
+            // dateTimePickerfecha
+            // 
+            this.dateTimePickerfecha.Location = new System.Drawing.Point(215, 349);
+            this.dateTimePickerfecha.Name = "dateTimePickerfecha";
+            this.dateTimePickerfecha.Size = new System.Drawing.Size(169, 22);
+            this.dateTimePickerfecha.TabIndex = 22;
+            // 
+            // Fecha
+            // 
+            this.Fecha.AutoSize = true;
+            this.Fecha.BackColor = System.Drawing.Color.Yellow;
+            this.Fecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Fecha.Location = new System.Drawing.Point(21, 351);
+            this.Fecha.Name = "Fecha";
+            this.Fecha.Size = new System.Drawing.Size(60, 20);
+            this.Fecha.TabIndex = 23;
+            this.Fecha.Text = "Fecha";
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Yellow;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(848, 128);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(130, 38);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "Ordenar";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Yellow;
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(785, 84);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(193, 38);
+            this.button2.TabIndex = 25;
+            this.button2.Text = "Agg Recientes";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -266,6 +321,10 @@
             this.BackgroundImage = global::EXAMEN_FINAL.Properties.Resources.One_Piece_Logo_Wallpaper_101623;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1503, 783);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Fecha);
+            this.Controls.Add(this.dateTimePickerfecha);
             this.Controls.Add(this.buttonEliminar);
             this.Controls.Add(this.buttonActualizar);
             this.Controls.Add(this.buttonInsertar);
@@ -320,6 +379,10 @@
         private System.Windows.Forms.Button buttonInsertar;
         private System.Windows.Forms.Button buttonActualizar;
         private System.Windows.Forms.Button buttonEliminar;
+        private System.Windows.Forms.DateTimePicker dateTimePickerfecha;
+        private System.Windows.Forms.Label Fecha;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

@@ -46,10 +46,10 @@ namespace EXAMEN_FINAL.DATA.DataAcces
         }
 
 
-
+        //METODO PARA CREAR NUEVO PERSONAJE
        
 
-        public int CrearPersonaje(string nombre, string grupo, string cargo, int nivel_poder, string raza, int recompensa, string fruta_del_diablo)
+        public int CrearPersonaje(string nombre, string grupo, string cargo, int nivel_poder, string raza, int recompensa, string fruta_del_diablo, DateTime Fecha_creacion)
         {
             // Validar los datos antes de la inserción
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(grupo) ||
@@ -66,7 +66,7 @@ namespace EXAMEN_FINAL.DATA.DataAcces
                 {
                     connection.Open();
 
-                    string sql = "INSERT INTO personajes_one_piece (nombre, grupo, cargo, nivel_poder, raza, recompensa, fruta_del_diablo) VALUES (@nombre, @grupo, @cargo, @nivel_poder, @raza, @recompensa, @fruta_del_diablo)";
+                    string sql = "INSERT INTO personajes_one_piece (nombre, grupo, cargo, nivel_poder, raza, recompensa, fruta_del_diablo, Fecha_creacion) VALUES (@nombre, @grupo, @cargo, @nivel_poder, @raza, @recompensa, @fruta_del_diablo, @Fecha_creacion)";
                     using (MySqlCommand command = new MySqlCommand(sql, connection))
                     {
                         command.Parameters.AddWithValue("@nombre", nombre);
@@ -76,7 +76,7 @@ namespace EXAMEN_FINAL.DATA.DataAcces
                         command.Parameters.AddWithValue("@raza", raza);
                         command.Parameters.AddWithValue("@recompensa", recompensa);
                         command.Parameters.AddWithValue("@fruta_del_diablo", fruta_del_diablo);
-
+                        command.Parameters.AddWithValue("@Fecha_creacion", Fecha_creacion);
                         return command.ExecuteNonQuery();
                     }
                 }
@@ -95,13 +95,11 @@ namespace EXAMEN_FINAL.DATA.DataAcces
             }
 
 
-
-
-
-
         }
 
-            public int ActualizarPersonaje(int id, string nombre, string grupo, string cargo, int nivel_poder, string raza, int recompensa, string fruta_del_diablo)
+        //METODO PARA ACTUALIZAR PERSONAJE
+
+            public int ActualizarPersonaje(int id, string nombre, string grupo, string cargo, int nivel_poder, string raza, int recompensa, string fruta_del_diablo, DateTime Fecha_creacion)
             {
                 // Validar los datos antes de la actualización
                 if (id <= 0 || string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(grupo) ||
@@ -117,7 +115,7 @@ namespace EXAMEN_FINAL.DATA.DataAcces
                     {
                         connection.Open();
 
-                        string sql = "UPDATE personajes_one_piece SET nombre = @nombre, grupo = @grupo, cargo = @cargo, nivel_poder = @nivel_poder, raza = @raza, recompensa = @recompensa, fruta_del_diablo = @fruta_del_diablo WHERE id = @id";
+                        string sql = "UPDATE personajes_one_piece SET nombre = @nombre, grupo = @grupo, cargo = @cargo, nivel_poder = @nivel_poder, raza = @raza, recompensa = @recompensa, fruta_del_diablo = @fruta_del_diablo, @Fecha_creacion = @Fecha_creacion WHERE id = @id";
                         using (MySqlCommand command = new MySqlCommand(sql, connection))
                         {
                             command.Parameters.AddWithValue("@id", id);
@@ -128,8 +126,9 @@ namespace EXAMEN_FINAL.DATA.DataAcces
                             command.Parameters.AddWithValue("@raza", raza);
                             command.Parameters.AddWithValue("@recompensa", recompensa);
                             command.Parameters.AddWithValue("@fruta_del_diablo", fruta_del_diablo);
+                            command.Parameters.AddWithValue("@Fecha_creacion", Fecha_creacion);
 
-                            return command.ExecuteNonQuery();
+                        return command.ExecuteNonQuery();
                         }
                     }
                 }
@@ -148,6 +147,8 @@ namespace EXAMEN_FINAL.DATA.DataAcces
 
 
             }
+
+        //METODO PARA ELIMINAR PERSONAJE
 
         public int EliminarPersonaje(int id)
         {
@@ -180,6 +181,53 @@ namespace EXAMEN_FINAL.DATA.DataAcces
                 Console.WriteLine("Error: " + ex.Message);
                 return -1;
             }
+        }
+
+        //ordenar un personaje por fecha_creacion 
+        public DataTable OrdenarPersonajeFecha(DateTime Fecha_creacion)
+        {
+            DataTable ordenar = new DataTable();
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT * FROM examen_final.personajes_one_piece ORDER BY Fecha_creacion ASC =@Fecha_creacion ";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Fecha_creacion", Fecha_creacion);
+
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                    {
+                        adapter.Fill(ordenar);
+                    }
+                }
+            }
+
+            return ordenar;
+        }
+
+        //Ordenar Reciente 
+        public DataTable ObtenerPersonajesRecientes(DateTime fechaInicio, DateTime fechaFin)
+        {
+            DataTable personajesRecientes = new DataTable();
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "SELECT * FROM examen_final.personajes_one_piece WHERE Fecha_creacion BETWEEN @fechaInicio AND @fechaFin ORDER BY Fecha_creacion ASC";
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@fechaInicio", fechaInicio);
+                    command.Parameters.AddWithValue("@fechaFin", fechaFin);
+
+                    using (MySqlDataAdapter adapter = new MySqlDataAdapter(command))
+                    {
+                        adapter.Fill(personajesRecientes);
+                    }
+                }
+            }
+
+            return personajesRecientes;
         }
     }
     }

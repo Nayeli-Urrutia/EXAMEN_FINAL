@@ -15,6 +15,104 @@ namespace EXAMEN_FINAL
     public partial class Form1 : Form
     {
         private System.Windows.Forms.ErrorProvider errorProvider;
+        public Form1()
+        {
+            InitializeComponent();
+            errorProvider = new System.Windows.Forms.ErrorProvider();
+            personaje = new PERSONAJEOP("localhost", "root", "");
+            this.Load += new System.EventHandler(this.Form1_Load);
+          
+
+            // Suscribir eventos de validación
+            textBoxNombre.Validating += new CancelEventHandler(textBoxNombre_Validating);
+            textBoxCargo.Validating += new CancelEventHandler(textBoxCargo_Validating);
+            textBoxRaza.Validating += new CancelEventHandler(textBoxRaza_Validating);
+            comboBoxGrupo.Validating += new CancelEventHandler(comboBoxGrupo_Validating);
+
+            // Suscribir eventos KeyPress
+            textBoxNombre.KeyPress += new KeyPressEventHandler(textBox_KeyPress);
+            textBoxCargo.KeyPress += new KeyPressEventHandler(textBox_KeyPress);
+            textBoxRaza.KeyPress += new KeyPressEventHandler(textBox_KeyPress);
+            comboBoxGrupo.KeyPress += new KeyPressEventHandler(comboBox_KeyPress);
+        }
+       
+
+
+
+
+        private void textBoxNombre_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxNombre.Text))
+            {
+                errorProvider.SetError(textBoxNombre, "El nombre es requerido");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(textBoxNombre, "");
+            }
+        }
+
+        private void textBoxCargo_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxCargo.Text))
+            {
+                errorProvider.SetError(textBoxCargo, "El cargo es requerido");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(textBoxCargo, "");
+            }
+        }
+
+        private void textBoxRaza_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(textBoxRaza.Text))
+            {
+                errorProvider.SetError(textBoxRaza, "La raza es requerida");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(textBoxRaza, "");
+            }
+        }
+
+        private void comboBoxGrupo_Validating(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(comboBoxGrupo.Text))
+            {
+                errorProvider.SetError(comboBoxGrupo, "El grupo es requerido");
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(comboBoxGrupo, "");
+            }
+        }
+
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true; // Evita el beep estándar de Windows al presionar Enter
+                this.Validate();
+            }
+        }
+
+        private void comboBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true; // Evita el beep estándar de Windows al presionar Enter
+                this.Validate();
+            }
+        }
+
+
+
+        private PERSONAJEOP personaje;
 
         private string[] gruposOnePiece = {
             "Pirata",
@@ -35,20 +133,15 @@ namespace EXAMEN_FINAL
             "Civiles"
         };
 
-        private PERSONAJEOP personaje;
 
+        //MOSTRAR TABLA
         private void CargarPersonajes()
         {
             dataGridViewOP.DataSource = personaje.LeerPersonajes();
       
         }
 
-        public Form1()
-        {
-            InitializeComponent();
-            personaje = new PERSONAJEOP("localhost", "root", "");
-            this.Load += new System.EventHandler(this.Form1_Load);
-        }
+      
 
         // mostrar listado
         private void Form1_Load(object sender, EventArgs e)
@@ -68,6 +161,7 @@ namespace EXAMEN_FINAL
         }
 
 
+        //Mostros los Grupos
         private void comboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBoxGrupo.Items.AddRange(gruposOnePiece);
@@ -77,41 +171,46 @@ namespace EXAMEN_FINAL
         //AGREGAR PERSONAJE
         private void buttonInsertar_Click(object sender, EventArgs e)
         {
-            try
+            if (ValidateChildren())
             {
-                // Obtener valores de los controles de la interfaz de usuario
-                string nombre = textBoxNombre.Text;
-                string grupo = comboBoxGrupo.Text;
-                string cargo = textBoxCargo.Text;
-                int nivel_poder = (int)numericUpDownNivle_poder.Value;
-                string raza = textBoxRaza.Text;
-                int recompensa = (int)numericUpDownRecompensa.Value;
-                string fruta_del_diablo = textBoxFruta_del_diablo.Text;
-
-                // Llamar al método CrearPersonaje y obtener la respuesta
-                int respuesta = personaje.CrearPersonaje(nombre, grupo, cargo, nivel_poder, raza, recompensa, fruta_del_diablo);
-
-                // Verificar la respuesta e informar al usuario
-                if (respuesta > 0)
+                try
                 {
-                    MessageBox.Show("Personaje creado correctamente");
-                    dataGridViewOP.DataSource = personaje.LeerPersonajes();
+                    // Obtener valores de los controles de la interfaz de usuario
+                    string nombre = textBoxNombre.Text;
+                    string grupo = comboBoxGrupo.Text;
+                    string cargo = textBoxCargo.Text;
+                    int nivel_poder = (int)numericUpDownNivle_poder.Value;
+                    string raza = textBoxRaza.Text;
+                    int recompensa = (int)numericUpDownRecompensa.Value;
+                    string fruta_del_diablo = textBoxFruta_del_diablo.Text;
+                    DateTime Fecha_creacion = DateTime.Now;
+
+
+                    // Llamar al método CrearPersonaje y obtener la respuesta
+                    int respuesta = personaje.CrearPersonaje(nombre, grupo, cargo, nivel_poder, raza, recompensa, fruta_del_diablo, Fecha_creacion);
+
+                    // Verificar la respuesta e informar al usuario
+                    if (respuesta > 0)
+                    {
+                        MessageBox.Show("Personaje creado correctamente");
+                        dataGridViewOP.DataSource = personaje.LeerPersonajes();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al crear el personaje");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Error al crear el personaje");
+                    // Manejar cualquier excepción y mostrar un mensaje de error al usuario
+                    MessageBox.Show("Ocurrió un error: " + ex.Message);
                 }
-            }
-            catch (Exception ex)
-            {
-                // Manejar cualquier excepción y mostrar un mensaje de error al usuario
-                MessageBox.Show("Ocurrió un error: " + ex.Message);
             }
         }
 
-        
+        //ACTUALIZAR PERSONAJE
 
-        private void buttonActualizar_Click(object sender, EventArgs e)
+            private void buttonActualizar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -136,6 +235,7 @@ namespace EXAMEN_FINAL
                 string raza = textBoxRaza.Text.Trim();
                 int recompensa = (int)numericUpDownRecompensa.Value;
                 string fruta_del_diablo = textBoxFruta_del_diablo.Text.Trim();
+                DateTime Fecha_creacion = DateTime.Now; // Obtener la fecha actual
 
                 // Validar los datos antes de la actualización
                 if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(grupo) ||
@@ -151,7 +251,7 @@ namespace EXAMEN_FINAL
                 if (result == DialogResult.Yes)
                 {
                     // Llamar al método para actualizar el personaje
-                    int respuesta = personaje.ActualizarPersonaje(id, nombre, grupo, cargo, nivel_poder, raza, recompensa, fruta_del_diablo);
+                    int respuesta = personaje.ActualizarPersonaje(id, nombre, grupo, cargo, nivel_poder, raza, recompensa, fruta_del_diablo, Fecha_creacion);
 
                     // Verificar la respuesta del método de actualización
                     if (respuesta > 0)
@@ -171,9 +271,14 @@ namespace EXAMEN_FINAL
                 // Manejar cualquier excepción y mostrar un mensaje de error al usuario
                 MessageBox.Show("Ocurrió un error: " + ex.Message);
             }
-
-
         }
+    
+
+
+        
+
+
+        //ELIMINAR PERSONAJE
 
         private void buttonEliminar_Click(object sender, EventArgs e)
         {
@@ -212,7 +317,56 @@ namespace EXAMEN_FINAL
             }
         }
 
+        private PERSONAJEOP ordenar;
+
+
+
+        //Ordenar fecha descendente
+        private void buscarPorFecha()
+        {
+
+            DataTable todosLosPersonajes = personaje.LeerPersonajes();
+
+            DateTime Fecha_creacion = dateTimePickerfecha.Value;
+
+
+            DataView dv = todosLosPersonajes.DefaultView;
+            dv.Sort = "Fecha_creacion DESC"; // Cambia ASC por DESC si deseas ordenar en orden descendente
+            DataTable personajesOrdenados = dv.ToTable();
+
+            dataGridViewOP.DataSource = personajesOrdenados;
+
+
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            buscarPorFecha();
+        }
+
+
+        //Fecha reinte
+
+
+        private void buscarPorFechareciente()
+        {
+            DateTime fechaFin = DateTime.Now;
+            DateTime fechaInicio = fechaFin.AddDays(-5); // Cambia el número de días según queramos
+
+            DataTable personajesRecientesOrdenados = personaje.ObtenerPersonajesRecientes(fechaInicio, fechaFin);
+
+            dataGridViewOP.DataSource = personajesRecientesOrdenados;
+        }
+
+
+      
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            buscarPorFechareciente();
+        }
+    }
     
 }
     
