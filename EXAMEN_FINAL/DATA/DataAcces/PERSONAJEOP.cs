@@ -99,54 +99,84 @@ namespace EXAMEN_FINAL.DATA.DataAcces
 
         //METODO PARA ACTUALIZAR PERSONAJE
 
-            public int ActualizarPersonaje(int id, string nombre, string grupo, string cargo, int nivel_poder, string raza, int recompensa, string fruta_del_diablo, DateTime Fecha_creacion)
+        public int ActualizarPersonaje(int id, string nombre, string grupo, string cargo, int nivel_poder, string raza, int recompensa, string fruta_del_diablo, DateTime Fecha_creacion)
+        {
+            if (id <= 0)
             {
-                // Validar los datos antes de la actualización
-                if (id <= 0 || string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(grupo) ||
-                    string.IsNullOrWhiteSpace(cargo) || string.IsNullOrWhiteSpace(raza) ||
-                    nivel_poder < 0 || recompensa < 0)
-                {
-                    throw new ArgumentException("Uno o más parámetros son inválidos.");
-                }
-
-                try
-                {
-                    using (MySqlConnection connection = new MySqlConnection(connectionString))
-                    {
-                        connection.Open();
-
-                        string sql = "UPDATE personajes_one_piece SET nombre = @nombre, grupo = @grupo, cargo = @cargo, nivel_poder = @nivel_poder, raza = @raza, recompensa = @recompensa, fruta_del_diablo = @fruta_del_diablo, @Fecha_creacion = @Fecha_creacion WHERE id = @id";
-                        using (MySqlCommand command = new MySqlCommand(sql, connection))
-                        {
-                            command.Parameters.AddWithValue("@id", id);
-                            command.Parameters.AddWithValue("@nombre", nombre);
-                            command.Parameters.AddWithValue("@grupo", grupo);
-                            command.Parameters.AddWithValue("@cargo", cargo);
-                            command.Parameters.AddWithValue("@nivel_poder", nivel_poder);
-                            command.Parameters.AddWithValue("@raza", raza);
-                            command.Parameters.AddWithValue("@recompensa", recompensa);
-                            command.Parameters.AddWithValue("@fruta_del_diablo", fruta_del_diablo);
-                            command.Parameters.AddWithValue("@Fecha_creacion", Fecha_creacion);
-
-                        return command.ExecuteNonQuery();
-                        }
-                    }
-                }
-                catch (MySqlException ex)
-                {
-                    // Manejar errores específicos de MySQL
-                    Console.WriteLine("Error de MySQL: " + ex.Message);
-                    return -1; // O cualquier otro valor que indique un error
-                }
-                catch (Exception ex)
-                {
-                    // Manejar otros errores
-                    Console.WriteLine("Error: " + ex.Message);
-                    return -1; // O cualquier otro valor que indique un error
-                }
-
-
+                throw new ArgumentException("ID inválido.");
             }
+
+            try
+            {
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    // Construir la consulta SQL dinámicamente basada en los valores no vacíos
+                    StringBuilder sql = new StringBuilder("UPDATE personajes_one_piece SET ");
+                    MySqlCommand command = new MySqlCommand();
+                    command.Connection = connection;
+
+                    if (!string.IsNullOrWhiteSpace(nombre))
+                    {
+                        sql.Append("nombre = @nombre, ");
+                        command.Parameters.AddWithValue("@nombre", nombre);
+                    }
+                    if (!string.IsNullOrWhiteSpace(grupo))
+                    {
+                        sql.Append("grupo = @grupo, ");
+                        command.Parameters.AddWithValue("@grupo", grupo);
+                    }
+                    if (!string.IsNullOrWhiteSpace(cargo))
+                    {
+                        sql.Append("cargo = @cargo, ");
+                        command.Parameters.AddWithValue("@cargo", cargo);
+                    }
+                    if (nivel_poder > 0)
+                    {
+                        sql.Append("nivel_poder = @nivel_poder, ");
+                        command.Parameters.AddWithValue("@nivel_poder", nivel_poder);
+                    }
+                    if (!string.IsNullOrWhiteSpace(raza))
+                    {
+                        sql.Append("raza = @raza, ");
+                        command.Parameters.AddWithValue("@raza", raza);
+                    }
+                    if (recompensa > 0)
+                    {
+                        sql.Append("recompensa = @recompensa, ");
+                        command.Parameters.AddWithValue("@recompensa", recompensa);
+                    }
+                    if (!string.IsNullOrWhiteSpace(fruta_del_diablo))
+                    {
+                        sql.Append("fruta_del_diablo = @fruta_del_diablo, ");
+                        command.Parameters.AddWithValue("@fruta_del_diablo", fruta_del_diablo);
+                    }
+
+                    sql.Append("Fecha_creacion = @Fecha_creacion ");
+                    command.Parameters.AddWithValue("@Fecha_creacion", Fecha_creacion);
+
+                    sql.Append("WHERE id = @id");
+                    command.Parameters.AddWithValue("@id", id);
+
+                    command.CommandText = sql.ToString();
+
+                    return command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                // Manejar errores específicos de MySQL
+                Console.WriteLine("Error de MySQL: " + ex.Message);
+                return -1;
+            }
+            catch (Exception ex)
+            {
+                // Manejar otros errores
+                Console.WriteLine("Error: " + ex.Message);
+                return -1;
+            }
+        }
 
         //METODO PARA ELIMINAR PERSONAJE
 

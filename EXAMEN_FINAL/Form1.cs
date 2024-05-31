@@ -161,7 +161,7 @@ namespace EXAMEN_FINAL
         }
 
 
-        //Mostros los Grupos
+        //Mostrar los Grupos
         private void comboBoxGrupo_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBoxGrupo.Items.AddRange(gruposOnePiece);
@@ -194,6 +194,7 @@ namespace EXAMEN_FINAL
                     {
                         MessageBox.Show("Personaje creado correctamente");
                         dataGridViewOP.DataSource = personaje.LeerPersonajes();
+                        LimpiarControles();
                     }
                     else
                     {
@@ -207,10 +208,20 @@ namespace EXAMEN_FINAL
                 }
             }
         }
-
+        private void LimpiarControles()
+        {
+            textBoxNombre.Text = "";
+            textBoxCargo.Text = "";
+            textBoxRaza.Text = "";
+            textBoxFruta_del_diablo.Text = "";
+            numericUpDownNivle_poder.Value = 0;
+            numericUpDownRecompensa.Value = 0;
+            // Limpiar la selección en el ComboBox
+            comboBoxGrupo.SelectedIndex = -1;
+        }
         //ACTUALIZAR PERSONAJE
 
-            private void buttonActualizar_Click(object sender, EventArgs e)
+        private void buttonActualizar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -236,15 +247,6 @@ namespace EXAMEN_FINAL
                 int recompensa = (int)numericUpDownRecompensa.Value;
                 string fruta_del_diablo = textBoxFruta_del_diablo.Text.Trim();
                 DateTime Fecha_creacion = DateTime.Now; // Obtener la fecha actual
-
-                // Validar los datos antes de la actualización
-                if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(grupo) ||
-                    string.IsNullOrWhiteSpace(cargo) || string.IsNullOrWhiteSpace(raza) ||
-                    nivel_poder < 0 || recompensa < 0)
-                {
-                    MessageBox.Show("Uno o más parámetros son inválidos.");
-                    return;
-                }
 
                 // Confirmar con el usuario si desea realizar la actualización
                 DialogResult result = MessageBox.Show("¿Está seguro de que desea actualizar este personaje?", "Confirmar Actualización", MessageBoxButtons.YesNo);
@@ -272,11 +274,6 @@ namespace EXAMEN_FINAL
                 MessageBox.Show("Ocurrió un error: " + ex.Message);
             }
         }
-    
-
-
-        
-
 
         //ELIMINAR PERSONAJE
 
@@ -346,7 +343,7 @@ namespace EXAMEN_FINAL
         }
 
 
-        //Fecha reinte
+        //Fecha reciente
 
 
         private void buscarPorFechareciente()

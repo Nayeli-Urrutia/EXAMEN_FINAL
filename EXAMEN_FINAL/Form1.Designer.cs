@@ -72,7 +72,7 @@
             // 
             this.button1Cargar.BackColor = System.Drawing.Color.Yellow;
             this.button1Cargar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1Cargar.Location = new System.Drawing.Point(871, 311);
+            this.button1Cargar.Location = new System.Drawing.Point(866, 342);
             this.button1Cargar.Name = "button1Cargar";
             this.button1Cargar.Size = new System.Drawing.Size(96, 38);
             this.button1Cargar.TabIndex = 1;
@@ -239,7 +239,7 @@
             // 
             this.buttonInsertar.BackColor = System.Drawing.Color.Yellow;
             this.buttonInsertar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonInsertar.Location = new System.Drawing.Point(871, 267);
+            this.buttonInsertar.Location = new System.Drawing.Point(605, 188);
             this.buttonInsertar.Name = "buttonInsertar";
             this.buttonInsertar.Size = new System.Drawing.Size(96, 38);
             this.buttonInsertar.TabIndex = 19;
@@ -251,7 +251,7 @@
             // 
             this.buttonActualizar.BackColor = System.Drawing.Color.Yellow;
             this.buttonActualizar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonActualizar.Location = new System.Drawing.Point(848, 217);
+            this.buttonActualizar.Location = new System.Drawing.Point(1170, 143);
             this.buttonActualizar.Name = "buttonActualizar";
             this.buttonActualizar.Size = new System.Drawing.Size(130, 38);
             this.buttonActualizar.TabIndex = 20;
@@ -263,7 +263,7 @@
             // 
             this.buttonEliminar.BackColor = System.Drawing.Color.Yellow;
             this.buttonEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonEliminar.Location = new System.Drawing.Point(848, 172);
+            this.buttonEliminar.Location = new System.Drawing.Point(1170, 200);
             this.buttonEliminar.Name = "buttonEliminar";
             this.buttonEliminar.Size = new System.Drawing.Size(130, 38);
             this.buttonEliminar.TabIndex = 21;
@@ -293,7 +293,7 @@
             // 
             this.button1.BackColor = System.Drawing.Color.Yellow;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(848, 128);
+            this.button1.Location = new System.Drawing.Point(1160, 38);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 38);
             this.button1.TabIndex = 24;
@@ -305,11 +305,11 @@
             // 
             this.button2.BackColor = System.Drawing.Color.Yellow;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(785, 84);
+            this.button2.Location = new System.Drawing.Point(1058, 92);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(193, 38);
+            this.button2.Size = new System.Drawing.Size(267, 38);
             this.button2.TabIndex = 25;
-            this.button2.Text = "Agg Recientes";
+            this.button2.Text = "Ordenar Recientes";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 

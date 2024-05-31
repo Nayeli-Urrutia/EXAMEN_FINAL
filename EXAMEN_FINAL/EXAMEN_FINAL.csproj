@@ -140,5 +140,8 @@
   <ItemGroup>
     <None Include="Resources\One-Piece-Logo-Wallpaper-101623.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="README.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
